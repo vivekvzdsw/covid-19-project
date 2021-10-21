@@ -1,0 +1,689 @@
+---
+title: "The Coronavirus Disease of 2019 -- DATA100 Project"
+date: "12/08/2020"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+library(tidyverse)
+library(stringr)
+library(lubridate)
+library(maps)
+library(gt)
+tinytex:::is_tinytex()
+```
+
+```{r,message=FALSE}
+tribble(
+  ~"Last Name (Family)", ~"First Name (Given)", ~"Student ID",
+  "Ashraf ", "Hafsah", 201911240,
+  "Coonjobeeharry", "Rajveer", 170707330,
+  "Lo", "Mariam", 200368340,
+  "Palar", "Valencia Isabelle", 203302280,
+  "Vangipuram", "Vivek", 200797670
+)%>%
+  gt() %>%
+  tab_header(
+    title = "Team Name: Covid Combatters",
+    subtitle = md("Team leader: **Vivek Vangipuram**")
+  )
+```
+
+# Content List:
+
+Part 1: Introduction, Date Choices, Factors
+
+Part 2: Real Time Datasets
+
+Part 3: Standard Datasets
+
+Conclusion
+
+Appendix
+
+# Part 1: Introduction, Date Choices, Factors
+
+**Intro: **
+On December 31st 2019, a cluster of cases of pneumonia in Wuhan, Hubei province in China were reported to the World Health Organization (WHO). These cases were later classified as a pandemic and required global attention and coordination to prevent the spread of the newly founded disease. By January 2020, the virus was given the name Coronavirus Disease 2019, commonly referred to as COVID-19. We have used the real time datasets; Covid Cases, Covid Tests, and Covid Response, along with additional datasets to further analyze the data and provide evidence for our claims. Although this pandemic continues today, we have been able to successfully filter these real time data sets according to the dates we chose and present them in an organized and meaningful fashion. 
+
+**A brief justification of the choices made regarding time period:**
+
+Based on the dates given, our group chose the dates from before April 1st and from April 1st to September 1st. We picked these dates because they seem to be the start of the peak periods of the first wave of COVID-19. These dates cover a time period where the cases were increasing at a high exponential rate.  We thought that the data from before April 1st to September 1st would be the most helpful when analyzing and answering questions for this project. For the most part, the period of time before April 1st was the time when COVID was most active. While from April 1st to September 1st, COVID was relatively milder and includes the “core” part of the first wave. 
+
+**Factors that have affected or have been affected by COVID-19 prior to September 1st:**
+
+**How the data sets selected measure the factors chosen:**
+From the 22 data sets given,  we selected death, life expectancy, population, population distribution, unemployment rate, unemployed youth, labor force, GDP per capita, and expenditure as evidence for our claims regarding health, economy, and unemployment. The unemployment rate, unemployed youth, expenditure, and GDP per capita, all provide information about the employment factor during the time of COVID.  The employment of regions during this time affects the economical factor. The death rate, life expectancy, and population count all provide information on the health and demographic factor of each country. The number of unemployed youth may also provide information to make conclusions about the education of a certain country.
+
+**How the overall Health and the Economy were affected by the COVID-19 in North America, from before April to After September 01, 2020**
+
+After discussing as a group, we concluded that in the time period we chose, the overall health and economy of every country were negatively affected the most. People were not as aware of the dangers of COVID and the importance of making efforts to prevent its spread at the time. During the peak of the COVID pandemic, the overall health of most countries depleted not only due to the drastic increase of COVID cases but also because many people who needed treatment for diseases such as cancer, diabetes, etc., had not been receiving the medical attention they need to remain healthy. Health services in most countries had also been disrupted as many health workers at the time were reassigned to deal with severe COVID cases. The cancellation of planned treatment also terminated health services at the time. During this difficult time, countries around the globe saw a massive decline in the unemployment rate as lockdowns forced companies to go out of business. For instance, Canada's unemployment rate rose to 13.7 percent in May. Canada also reported the worst monthly drop in GDP falling by 11.6 percent in April. 
+
+The real-time covid testing data represent the amount of testing that was done from April to July 2020. We chose countries from each continent to analyze data more accurately around the world. Canada, USA, Brazil, Italy, Russia, Australia, Egypt, South Africa, and India. We compared their results from the online datasets to analyze how these testing/response results may have affected the health, employment, and economy of each country.
+
+```{r, echo=FALSE,message=FALSE}
+covid_cases <- read_csv("https://covid.ourworldindata.org/data/ecdc/full_data.csv",
+                        col_types = cols(
+                          .default = col_double(),
+                          date = col_date(format =""),
+                          location = col_character()
+                        ))%>%
+  filter(between(date,as.Date("2020-01-01"),as.Date("2020-09-01"))) 
+
+covid_cases_filtered<-covid_cases%>%
+  filter(location %in% c("Canada", "United States", "Italy", "Russia", "Australia", "Egypt","South Africa", "India"))
+
+covid_cases_filtered_CAN_USA_ITA<- covid_cases_filtered %>%
+  filter(location %in% c("Canada", "United States", "Italy")) 
+
+covid_cases_filtered_CAN_USA_ITA%>%
+  ggplot()+ geom_line(mapping = aes(x = date, y = total_cases, color = location), position = "Jitter") +
+  labs(title = "Total Covid Cases in the United States, Canada, and Italy")
+
+```
+
+  After analyzing the results of the COVID testing data in the USA, our group can conclude that the overall testing in the USA has increased exponentially from April to July. Compared to Canada, the USA tested at a much faster rate than Canada. Testing has greatly impacted each countries’ employment and economy, not only due to its expenses, but also the time and efforts spent on testing. Although employment rates in most countries may have decreased, after the pandemic, healthcare professions are set to become one of the largest and fastest-growing professions in the world. 
+
+```{r, echo=FALSE,message=FALSE}
+covid_tests <- read_csv("https://covid.ourworldindata.org/data/testing/covid-testing-all-observations.csv")
+
+covid_tests_filtered <- covid_tests %>% 
+  filter(between(Date,as.Date("2020-01-01"),as.Date("2020-09-01"))) %>%
+  filter(Entity %in% c("United States - tests performed", "Canada - people tested", "Italy - tests performed"))%>%
+  select(-(`Source URL`:`Notes`))
+  
+covid_tests_filtered%>% ggplot(aes(x = Date, y = `Cumulative total`)) +
+  geom_line(aes(color = Entity)) + labs(title = "Total Tests in Canada US and Italy over our Time Period")
+
+```
+
+  The COVID cases graph allows us to compare the number of cases in Canada, USA, Brazil, Italy, Russia, Australia, Egypt, South Africa, and India. After analyzing the COVID cases graph, it is clear that the USA had far more COVID cases than Canada and Italy at the time. This may be due to the high frequency of testing in the USA compared to other countries. The COVID testing and COVID cases graphs, when compared, have a similar shape. This is due to the fact that countries who test their population at a faster rate, will be able to have a more accurate and possibly a far greater number of COVID cases in their country.  
+
+```{r, echo=FALSE,message=FALSE}
+covid_response <- read_csv("https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv",
+                           col_types = cols(
+                             .default = col_character(),
+                             Date = col_date(format = "%Y%m%d"),
+                             `E3_Fiscal measures` = col_double(),
+                             `E4_International support` = col_double(),
+                             `H4_Emergency investment in healthcare` = col_double(),
+                             `H5_Investment in vaccines` = col_double(),
+                             `C1_School closing` = col_double(),
+                             `C2_Workplace closing` = col_double(),
+                             `C4_Restrictions on gatherings` = col_double(),
+                             `C1_Flag` = col_logical(),
+                             `C2_Flag` = col_logical(),
+                             `C3_Flag` = col_logical(),
+                             `C4_Flag` = col_logical(),
+                             `C5_Flag` = col_logical(),
+                             `C6_Flag` = col_logical(),
+                             `C7_Flag` = col_logical(),
+                             `E1_Flag` = col_logical(),
+                             `H1_Flag` = col_logical()
+                           )) %>% filter(between(Date,as.Date("2020-01-01"),as.Date("2020-09-01"))) 
+
+covid_response_gatherings_filtered <- covid_response %>% 
+  filter(CountryCode %in% c("CAN", "USA", "ITA"), `C1_School closing` >= 0, `C4_Restrictions on gatherings` >= 0)%>%
+  select(`CountryName`:`Date`,`C4_Restrictions on gatherings`, -(`RegionName`:`RegionCode`))
+
+covid_response_gatherings_filtered %>%
+  ggplot(mapping = aes(x = Date, y = `C4_Restrictions on gatherings`, color = CountryName)) + geom_point()+facet_wrap(~CountryName)
+
+```
+
+  Our group decided to analyze the C4_restrictions on gatherings variable of the COVID response dataset. The Restrictions on gatherings in each country will allow us to identify how seriously each country took the problem of public gatherings during the peak time of COVID. After April, Canada went from taking no measures to limiting public gatherings to 10 people max. Canada kept their 10 people max policy till the end of July. Italy started out similar to Canada, but later changed their policy mid-April to restrictions on gatherings from 101-1000 people. The fatal change Italy made has affected their country since then. After the government lifted the restrictions on gatherings, the number of COVID cases in Italy increased drastically. This proves that countries who took the necessary precautions and remained firm on these restrictions, had far fewer cases than those who spent less efforts in precautionary measures during the peak  time of COVID. The USA’s graph for the workplace closing, includes more than one precautionary measure taking place at the same time. This could be because the restriction measures taken on closing work may have been according to the amount of cases on a statewide basis instead of the country abiding by one set law.
+
+# Part 2: Real Time Data Sets prior to April 1st to September 1st:
+
+**Covid Cases:**
+
+Gives an in depth run down of all the countries and the dates starting from the beginning of the year until realtime. Each variable provides statistics of deaths or cases by different time spans. The variable displays the overall rate of new COVID cases found and includes the number of deaths due to COVID. For each biweekly, weekly, and daily time marker it gives an update on the amount of cases and deaths for that timestamp. Overall it is very  useful in gauging the overall COVID-19 case increase and decrease on certain dates and how they span over various timeframes. We used this dataset to compare the overall COVID cases and deaths by specific countries and regions. We focused on the dates leading up to September 1st as that is the timeframe we have chosen. We also decided to make graphs comparing total cases and total deaths in specific as we feel it is the best measure for this dataset and for the setup of our project to give us the conclusions we are looking for. The original data set had 10 columns and 59354 rows. The columns represented different information about Covid-19 in different countries such as the number of new cases, weekly deaths, total cases in the country, etc. The variable types for eight of the columns were “double”, while the location was “character” type, and the date column was “date” type. This data had a lot of information that we could use for our project. We used this and also picked specific countries like Canada, United States, and Italy, since those had high rates for Covid-19 cases, and made a new data set called covid_cases_filtered to use for our graphs. This resulted in a new data set of 10 columns and 245 rows. This made it much easier for our group to make several different graphs that we can analyze and make conclusions.
+
+**Covid Tests:**
+
+The covid tests data set provides information about Covid-19 tests performed in over 94 countries. It displays the country name, the number of tests performed, and the month it was performed in. Similar to some of the other data sets, “covid_tests” was also untidy. It had many unknown values, and some columns and countries were just not necessary for our project. Therefore, we decided to filter out the data set, and chose Canada, the United States, and Italy to analyze, since those countries had many covid tests performed. We also filtered out the date so the dataset shows the number of tests performed from January 1st, 2020, up until September 1st, 2020(the last date that we chose as seen in question 1). Finally, we decided to take out all the columns starting from “Source URL” up to “Notes”, since those weren't going to be needed in our graphs. Our final dataset had 11 columns and 184 rows. The variable types were also correct, so we didn't need to change any(for example, Country was a character variable, Date was a date variable, Cumulative total was a double, etc).
+
+```{r, echo=FALSE,message=FALSE}
+covid_tests_filtered_stats <- covid_tests_filtered  %>%
+  filter(!is.na(`Cumulative total`), Entity == "Canada - people tested") %>% 
+  separate(Entity, into = c("location", "Test"), sep = "-")
+covid_tests_filtered_stats %>% ggplot() +
+  geom_line(aes(x = Date, y = `Cumulative total`, color = location), se = TRUE)
+
+covid_cases_stats <- filter(covid_cases, location == 'Canada') %>% rename(Date = date)
+
+#Join covid_cases and covid_tests_filtered to get only cols with same dates
+tests_cases <- inner_join(covid_tests_filtered_stats, covid_cases_stats, by = c('Date'))
+
+#change to tibble 
+tib_tests_cases<- as_tibble(tests_cases)
+fit.final<- lm(total_cases ~ `Cumulative total`, data = tib_tests_cases)
+
+cor(tib_tests_cases$`Cumulative total`, tib_tests_cases$total_cases) 
+summary(fit.final)
+
+tib_tests_cases %>%
+  ggplot(mapping = aes(x = `Cumulative total`  , y = total_cases)) +
+    geom_point() +
+    geom_smooth(method=lm, se=TRUE, level=0.99) +
+    ggtitle(paste("cor(X,Y) = ", cor(tib_tests_cases$`Cumulative total`, tib_tests_cases$total_cases)))  +
+  xlab('total_tests')
+
+```
+
+The graph above signifies a strong linear relationship. The relationship between the total number of cases has a very strong positive correlation, since the value is so close to one. The number of COVID tests has a strong linear relationship with the number of recorded COVID cases. So, as the total number of tests increases, so does the number of recorded COVID cases. If we were to suddenly decrease the rate of COVID testing, the number of recorded COVID cases would also decline. In other words, this graph implies that countries that may be testing their population at a much faster rate would obviously have more recorded COVID cases than those who are testing their population at a much slower rate. 
+
+**Covid Response: ** 
+
+The Covid response data set gave us information about government policies in different countries around the world. The scale was according to the level of precautions enforced by government officials regarding school and work closures, travel plans, closing public events, etc. The function glimpse(), allowed us to learn more about the data set, and find the dimensions of the data. The unfiltered data consisted of 47 columns and 64925 rows. We did not need all of this data for our project, therefore we used filter() to only display columns that were necessary. This includes Canada, the United States, and Italy. These countries had a high number of cases compared to the other countries. We also ensured that the values under the columns “C1_School closing” and “C4_Restrictions on gatherings” were above 0, to make sure that they were relevant. In addition, we only selected a few columns to use in our final dataset to use while creating our graphs. Therefore, our final, organized dataset for Covid response, which is called “covid_response_gatherings_filtered”, has only 5 columns, and 4,491 rows (which contained the countries that we selected earlier).
+
+```{r, echo=FALSE,message=FALSE}
+covid_cases_response <- inner_join(covid_cases %>% filter(location == "Canada"), covid_response %>% filter(CountryName == "Canada") %>% rename(date = Date), by = c('date'))
+
+covid_cases_response %>% 
+    ggplot(aes(x = date, y = new_cases,  fill = `C2_Workplace closing`)) + 
+  geom_histogram(stat = "identity") +
+  geom_line(data = covid_cases_response, aes(x = date, y = new_deaths)) + 
+  labs(title = "Workplace closing compared to New Cases")
+```
+  
+  The above graph displays the restrictions Canada implemented upon the working public during a time of rapid exponential growth of COVID-19. The graph compares how the government policy had an affect on the cases of COVID. The C2_Workplace Closing data originates from the COVID response data provided. The 0 level, represented in black are times when Canada required no measures upon the working public. Level 1 represents the government recommending closing workplaces and instead working from home. Level 2 requires work closing with few sectors of workers, while level 3 represents the government enforcing work closing with all-but-essential workplaces (ex. Grocery stores). Canada took no precautionary measures from approximately April to July of 2019. The recorded new cases of COVID-19 are also highest during this time period. This proves that closing workplace and enforcing laws that limit the public from working in-person has direct effects on the number of new COVID cases. When Canada began closing the workplace after July, the number of new cases in Canada took a rapid decline as well. From this data we can conclude that countries who implemented government regulations in the workplace have had far fewer new COVID cases.
+
+```{r, echo=FALSE,message=FALSE}
+covid_cases_response %>% 
+    ggplot(aes(x = date, y = new_cases,  fill = `H6_Facial Coverings`)) + 
+  geom_histogram(stat = "identity") + 
+  geom_line(data = covid_cases_response, aes(x = date, y = new_deaths)) + 
+  labs(title = "Facial Coverings Compared to New Cases")
+
+```
+  
+  The above graph displays the governmental policies placed regarding facial coverings from January 2019 to September 2019. The colors correspond to each level, and each level describes the recorded policies on the use of facial coverings outside the home. Level 0 represents no measures taken, level 1 represents recommends facial covering, level 2 requires facial covering in some specified public spaces at times social distancing may not be maintained, level 3 requires facial coverings in all public places when social distancing is not possible, and level 4 requires facial covering at all times regardless of location and distance of others.. The green and pink present the rate of new cases in Canada from April to approximately July. During this time period, the rates of new COVID cases were high and the government regulations upon facial coverings started at level 0, then changed to level 1 mid-April. Only after Canada required limitations on gatherings in the 3rd and 4rth level did the rate of new COVID cases saw a decline. 
+
+```{r, echo=FALSE,message=FALSE}
+start_date <- "2020-01-01"
+end_date <- "2020-09-01"
+
+covid_cases_response <- inner_join(covid_cases %>% filter(location == "Canada"), covid_response %>% filter(CountryName == "Canada") %>% rename(date = Date), by = c('date'))
+
+covid_cases_response %>% 
+  group_by(`H6_Facial Coverings`) %>%
+  summarise(AVG_Daily_Cases = mean(new_cases, na.rm = TRUE),
+            Max_Daily_Cases = max(new_cases, na.rm = TRUE),
+            AVG_Daily_deaths = mean(new_deaths, na.rm = TRUE),
+            Max_Daily_deaths = max(new_deaths, na.rm = TRUE)) %>% as_tibble() %>% 
+  gt() %>%
+  tab_header(
+    title = "Covid Cases and Deaths with Facial Covering",
+        subtitle = glue::glue("{start_date} to {end_date}")
+
+  )
+```
+
+Further conclusions can be drawn from the table above. The H6_Facial Coverings column includes the level of restrictions on facial coverings from January to September. It is obvious that when Canada implemented regulations on facial coverings, the death rate declined. 
+
+```{r, echo=FALSE,message=FALSE}
+covid_cases <- read_csv("https://covid.ourworldindata.org/data/ecdc/full_data.csv",
+                        col_types = cols(
+                          .default = col_double(),
+                          date = col_date(format =""),
+                          location = col_character()
+                        ))%>%
+  filter(between(date,as.Date(start_date),as.Date(end_date))) 
+
+covid_cases_filtered<-covid_cases%>%
+  filter(location == c("Canada", "United States", "Italy"))
+
+covid_cases_filtered %>% 
+  group_by(location) %>%
+  summarise(Avg_Daily_Cases = mean(new_cases, na.rm = TRUE),
+            Max_Daily_Cases = max(new_cases, na.rm = TRUE),
+            Avg_Daily_Deaths = mean(new_deaths, na.rm = TRUE),
+            Max_Daily_Deaths = max(new_deaths, na.rm = TRUE)) %>% as.tibble() %>%
+  gt() %>%
+  tab_header(
+    title = "Covid Cases and Deaths",
+        subtitle = glue::glue("{start_date} to {end_date}")
+  )
+```
+
+```{r, echo=FALSE,message=FALSE}
+covid_tests <- read_csv("https://covid.ourworldindata.org/data/testing/covid-testing-all-observations.csv")
+
+covid_tests_filtered <- covid_tests %>% 
+  filter(between(Date,as.Date(start_date),as.Date(end_date))) %>%
+  filter(Entity == c("United States - tests performed", "Canada - people tested", "Italy - tests performed"))%>%
+  select(-(`Source URL`:`Notes`))
+  
+covid_tests_filtered
+
+covid_tests_filtered %>% 
+  group_by(Entity) %>%
+  summarise(AVG_Daily_Testing = mean(`Daily change in cumulative total`, na.rm = TRUE)) %>%
+  ggplot + 
+  geom_bar(aes(x = Entity, y = AVG_Daily_Testing, fill = Entity ), stat = "identity")
+
+```
+
+  When we compare the relationship between the average number of daily cases and the average daily testing in the country Canada, we can see that the relationship between COVID cases and the COVID testing does represent the claim made regarding the correlation of the two variables; COVID testing and COVID cases. Canada, being a country that took precautions early, conducted approximately 26,000 COVID tests on average daily, from January to September. Compared to Italy, Canada tested almost twice as much as Italy. Canada’s population suffered from approximately twice as many recorded COVID cases on a daily basis, than Italy. This supports the claim of a strong positive correlation between the two data sets.  In other words, the two regions Canada and Italy are evidence for the claim made regarding the relationship of COVID cases and COVID testing.
+  
+```{r, echo=FALSE,message=FALSE}
+covid_cases_last_date <- covid_cases %>% filter(date == as.Date(end_date), !is.na(total_cases))
+
+population <- read_tsv("POPULATION.csv")
+
+healthexp <- read_tsv("HEALTHEXP.csv")
+
+covid_cases_population <- inner_join(covid_cases_last_date, population, by = c("location" = "Country")) %>%
+  mutate(`(covid_cases/1,000 population)` = (total_cases/Population)*1000) 
+
+out <- boxplot.stats(covid_cases_population$`(covid_cases/1,000 population)`)$out
+out_ind <- which(covid_cases_population$`(covid_cases/1,000 population)`%in% c(out))
+outliers <- covid_cases_population[out_ind, "location"] %>% filter(location != 'United States')
+
+covid_cases_healthexp <- inner_join(covid_cases_last_date, healthexp, by = c("location" = "Country")) %>% mutate(`Current Health Expenditure` = parse_number(`Current Health Expenditure`))%>%
+  filter(!is.na(total_deaths), !is.na(`Current Health Expenditure`))
+
+covid_cases_healthexp_population <- inner_join(covid_cases_healthexp, population %>% filter(!is.na(Population), Population > 10000000) %>% select(-Rank), by = c("location" = "Country")) %>%
+  anti_join(outliers, by = "location")
+
+gdppp <- read_tsv("GDPPP.csv")%>%
+  mutate(`GDP - PER CAPITA (PPP)` = parse_number(`GDP - PER CAPITA (PPP)`))
+
+gdppp %>% inner_join(covid_cases_healthexp_population, by = c("Country" = "location"))%>% 
+  filter(Country == c("Canada") |Country == c("Italy")) %>%
+  select(Country, total_cases, total_deaths,`Current Health Expenditure`, Year, `GDP - PER CAPITA (PPP)`, `Date of Information.x`) %>%rename(Year_Health = Year, `HealthExpenditure %` = `Current Health Expenditure`, Year_GDP = `Date of Information.x`) %>%
+  gt()  %>%
+  tab_header(
+    title = "Canada vs Italy",
+    subtitle = "GDPPP Comparison"
+  )
+
+```
+
+```{r, echo=FALSE,message=FALSE}
+
+summary(covid_cases_population$`(covid_cases/1,000 population)`)
+
+ggplot(covid_cases_population) +
+  aes(x = "", y = `(covid_cases/1,000 population)`) +
+  geom_boxplot(fill = "#0c4c8a") +
+  theme_minimal()
+
+out <- boxplot.stats(covid_cases_population$`(covid_cases/1,000 population)`)$out
+out_ind <- which(covid_cases_population$`(covid_cases/1,000 population)`%in% c(out))
+outliers <- covid_cases_population[out_ind, "location"] %>% filter(location != 'United States')
+
+```
+
+In order to deal with the outliers in the datasets we used a boxplot to see the distribution of the covid cases per 1000 population of each country and the box plot above shows the potential outliers in our datasets. We used the interquartile range (IQR) criterion to find the potential outliers and observations above q0.25 + 1.5 • IQR and below q0.25 - 1.5 • IQR are considered as outliers in R. Using this method, the below 15 countries were found to be the outliers however we decided to leave the United States in our datasets since it’s one of the major countries and removed the rest from our analysis. 
+
+# Part 3: Data Sets Used as Evidence prior to September 1st:
+
+**GDP Per Capita:**
+The GDP per capita dataset is useful in determining the gdp per capita of 229 countries of the world. With 4 columns and 229 rows, this dataset is very basic but somewhat useful. The “Rank” Column lists the countries with the highest GDP per capita and then goes in descending order until rank 229. The date of the information column goes over when the statistic was found. The country column is self explanatory. To tidy up the dataset, parsing the number was required to contain only numbers in the dataset without any dollar signs or commas. The newly made column  basically represents the GDP of a country for every person who lives in that country. This was used to determine an overall economic status of each country and to determine how the overall GDP ratios with the population of a given country. The D.O.I. and Country columns are listed as character types whereas “Rank” and the newly made “GDP - PER CAPITA ($)(PPP)” are double types. 
+
+**COVID Deaths(Realtime Dataset only Used for Comparison): **
+
+The death rates data set shows the average amount of deaths per 1000 population mid-year for all countries. This was a useful data set since it allowed us to compare the number of deaths in a region with the number of deaths from Covid. The original dataset(including the head() function) had 6 rows and 4 columns. The “Rank” column, represented the countries with the highest number of deaths per 1000 population, the higher the rank, the more deaths in that country. The date of the information column represented when the information was found. The variable types for the columns for Country and date of information were type "character", and columns for Rank and deaths were type "double".
+
+One of the issues with this dataset was that the rows represented countries that were not necessary for our analysis, such as Bulgaria, Serbia, Latvia etc. Therefore, we took out the “head()” function, and filtered the data set to only use the countries Canada, Italy, and the United States, which are the countries that were focussed on most for our project.
+
+**Current Health Expenditure:**
+The health expenditure dataset shows the percent of GDP used on health. For example, Albania has a health expenditure of 6.8% compared to Austria with 10.3%. This suggests that Austria spends more on the health of its population. This dataset is useful to us since Covid affects the health of people and the dataset can be used how countries spending more on health care are coping with the virus. This data consists of three variables; Country, Current Health Expenditure and Year of which the first most two will be used in our analysis. The Country and Current Health Expenditure variables are of type character whereas Year is a double. For our quantitative analysis the Current Health Expenditure is converted to double and showing data of 78 countries having a population of 10 million+. 
+
+```{r, echo=FALSE,message=FALSE}
+healthexp <- read_tsv("HEALTHEXP.csv")
+
+#10 Million Population+
+
+covid_cases_healthexp <- inner_join(covid_cases_last_date, healthexp, by = c("location" = "Country"))  %>% mutate(`Current Health Expenditure` = parse_number(`Current Health Expenditure`))%>%
+  filter(!is.na(total_deaths), !is.na(`Current Health Expenditure`))
+
+covid_cases_healthexp_population <- inner_join(covid_cases_healthexp, population %>% filter(!is.na(Population), Population > 10000000) %>% select(-Rank), by = c("location" = "Country")) %>%
+  anti_join(outliers, by = "location")
+
+covid_cases_healthexp_population %>%
+  ggplot(aes(x = total_deaths, y = `Current Health Expenditure`)) +
+  geom_point() +
+  geom_smooth(method=lm, se=TRUE, level=0.99) +
+  ggtitle(paste("Date: 2020-09-01 - cor(X,Y)  = ", 
+                cor(covid_cases_healthexp_population$total_deaths, covid_cases_healthexp_population$`Current Health Expenditure`)))
+
+```
+
+  The above graph displays the relationship between the total recorded COVID deaths and the Current Health Expenditure from January to September 2019. The correlation coefficient being 0.47 represents a weak positive correlation between the total number of cases and the health expenses spent in nations around the world. These expenses include testing for COVID, ventilators, medicine used to care for ill patients, and investment for vaccines. Since the relationship represents a weak positive correlation, it is difficult to make a solid conclusion on the relationship of the total deaths and current health expenditure. 
+
+**Population: **
+The population dataset is very straightforward as it gives the overall population of a country since July of 2020. It gives the amount and lists the countries by rank, Number one being the most populated country which is China, and 238 being the Pitcairn islands. The main usage for this dataset is to use it for each country to compare individual statistics to the overall population. It is a very simple but very effective dataset that is applied in various scenarios. One to name is compared to real time datasets such as the covid cases to see the ratio and percentage of a country infected to compare it to other countries. It gives a measure and insight as to how well a country has stopped the spread, and dealt with the spread. Going over each variable, it consists of the rank as mentioned, the country, the overall population, and the date of which each population was recorded. A sample image has been posted in the exhibits. 
+
+```{r, echo=FALSE,message=FALSE}
+population_vs_cases <- full_join(covid_cases, population, by = c("location" = "Country"))%>%
+  mutate(Percentage_Cases_Population = (100*total_cases)/(Population))
+
+population%>% 
+  filter(Country %in% c("Canada", "United States", "Italy", "Russia", "Australia", "Egypt","South Africa", "India"))%>%
+  select(Country, Population)%>%
+  ggplot() + geom_bar(mapping = aes(x = Country, y = Population, fill = Country, color = Country), stat = "Identity") + labs(title = "Population of each Country Chosen")
+
+population_vs_cases%>%
+  filter(location %in% c("South Africa", "India"))%>%
+  mutate(Percentage_Cases_Population = (100*total_cases)/(Population))%>%
+  select(date, location, total_cases, total_deaths,Population, Percentage_Cases_Population)%>%
+  ggplot() + geom_line(mapping = aes(x = date, y = `Percentage_Cases_Population`, color = location),size = 1.5,position = "jitter") +   ylim(0,3) + labs(title  = "Percentage of Total Cases vs The Population In South Africa and India")
+
+
+```
+
+  Looking at these graphs of the percentage of the population infected in each country, the conclusions made stand the same for the most part. These graphs display the rate at which a country’s population was infected at each given time frame. By looking at the total cases from the previous analysis of the covid_cases graph, similar conclusions are to be found. Originally, by looking solely at the total number of cases, we are not filled with the full story behind a country’s dealing with COVID19. Here, it puts into perspective the amount of people in a country and ratios the graph by it. More or less, it is the same comparing each graph to its partner’s graph (the graphs from each region group of Percentage_Cases_Population vs the same region group for overall COVID cases). However, looking at India in the cases and percentage graph, India is shown to have a lower percentage but higher amount of cases. This shows that they are doing a good job given their rather large population. However, South Africa, which is one of the least populated graphs on the list of countries we chose, had a much higher percentage of total cases approaching September first. The story this data tells is that potentially, South Africa was not dealing with the spread of their virus within their population as well as India; a country with 23 times the population of South Africa. It can be inferred that although there were a higher amount of cases, India did a better job of preventing the spread to their population as a whole. The other graphs regarding the percentages of infected population can be found in the appendix.
+
+**Life expectancy:**
+
+The life Expectancy dataset goes over the average life expectancy in the 238 countries of this world. The original un-tidied dataset had to be tidied in order to display the numbers in proper “double” columns, and so that each variable would have had its own column. By initially spreading the dataset and then getting rid of the lettering in the actual number columns, we were able to start to find correlations and look at the dataset properly. The number column leads every country by alphabetical order. Number one being Afghanistan, and 238 being Zimbabwe. The next two columns give the average life expectancy in double format for both male and female. The region section gives which region the number corresponds to. The final column is for the average life expectancy of the whole population in that country, so taking the mean of the male and female life expectancies. This is also again in double format.
+
+```{r, echo=FALSE,message=FALSE}
+lifeexpect <- read_tsv("LIFEEXPECTANCYATBIRTH.csv")%>%
+  spread(key, value)%>%
+  filter(!is.na(female))%>%
+  separate(female, into=c("female", "delete1", "delete2"), sep = " ",convert=TRUE)%>%
+  separate(male, into=c("male", "delete"), sep = " ",convert=TRUE)%>%
+  separate(`total population`, into=c("total population", "delete3"), sep = " ",convert=TRUE) %>%
+  select(-delete1,-delete2,-delete3, -delete)
+
+lifeexpect2<-lifeexpect%>%
+  filter(region %in% c("Canada", "United States", "Italy", "Russia", "Australia", "Egypt","South Africa", "India"))%>%
+  mutate(Average_Expectancy = sum(`total population`)/n())%>%
+  mutate(Expectancy_Difference = `total population` - Average_Expectancy)
+
+lifeexpect2%>%
+  filter(region %in% c("Canada", "United States", "Italy", "Russia", "Australia", "Egypt","South Africa", "India")) %>%
+  ggplot() + geom_bar(mapping = aes(x = region, y = Expectancy_Difference, fill = region, color = region), stat = "Identity") + ylim(-10,10) + labs(title = "Average overall life expectancy difference Individual Expectancy")
+
+deaths_vs_lifeexpect<-full_join(lifeexpect, covid_cases, by = c("region" = "location"))
+
+deaths_vs_lifeexpect%>%
+  filter(region %in% c("South Africa", "India"))%>%
+  ggplot() + geom_line(mapping = aes(x = date, y = total_deaths, color = region)) + labs(title = "Total Covid deaths by date in South Africa, India") + facet_wrap(~region) + ylim(0,150000)
+
+```
+
+  After taking the average life expectancy of each country we chose and subtracting the life expectancy of each country, a graph was made. For the most part, countries that fell below that average overall expectancy found more covid deaths overall, with the United states that can be ruled as an outlier. The life expectancy did play an overall role in the overall amount of deaths in a country as it can be used as a general measure to see how long people live in certain countries due to genetics, life force of people, the economic conditions in related to nutrition, the health factors, and livability conditions in the various countries. COVID would have definitely amplified the amount of deaths in these countries. Based on our previous conclusions, the United States has different factors for a less amount of deaths.  Looking at India in particular, which was less than 5 percent of the average, there are an evident large amount of deaths. Egypt and Russia follow right behind it having a large amount of deaths. Looking at australia or Canada on the other hand, they are countries with above average life expectancies, and therefore have a lesser amount of overall deaths. Italy too does have a high death toll although having a positive average difference. This could be attributed to various other factors that had taken place in italy. This dataset only provides some insight as to what could have happened.
+
+**Democracy Score:**
+
+The Democracy Index datasets shows the measure of the state of democracy in 167 countries, of which 166 are sovereign states and 164 are UN member states. The countries are ranked in terms of their democracy score ranging from 1-10. The variables used in our analysis are Country of character type and the Score which is a double. This dataset is useful for our analysis as it lets us see how countries with high democracy fare with coping with the virus compared to countries with low democracy scores.
+
+**Schooling Expectancy:**
+
+The Schooling Expectancy data set contains 123 rows and four columns. This data set presents the average number of educated male and females in each country. After tidying the data set, we created a scatter plot using the geom_point function, then used geom_smooth() to create a regression line. The variables used in this data set were the total number of schooling years, the COVID_cases, Population, and the Democracy Score.
+
+```{r, echo=FALSE,message=FALSE}
+schooling <- read_tsv("SCHOOLINGEXPECTANCY.csv")
+
+democracyindex <- read_tsv("DEMOCRACYINDEX.csv")
+
+schooling_titied <- schooling %>% select(key, value) %>% group_by(key) %>%
+  mutate(rn = row_number()) %>%
+  pivot_wider(names_from = "key", values_from = "value")
+
+schooling_titied_covid <- schooling_titied %>% inner_join(covid_cases_last_date, by = c("Country" = "location")) %>% 
+  anti_join(outliers, by = c("Country" = "location")) %>% mutate(years_schooling = as.numeric(gsub(" years", "", total))) %>% 
+  inner_join(population, by = c("Country")) %>%
+  mutate(`(covid_cases/1,000 population)` = (total_cases/Population)*1000) %>%
+  inner_join(democracyindex, by = "Country") %>%
+  filter(Country != "Eritrea") %>%
+  rename(Democracy_Score = Score) %>% select(Country, years_schooling,`(covid_cases/1,000 population)`, Population, Democracy_Score)
+
+view(schooling_titied_covid %>% filter(Population > 25000000, Population < 40000000))
+
+schooling_titied_covid %>%
+  ggplot(aes(x = years_schooling, y=`(covid_cases/1,000 population)`)) +
+  geom_point(aes(size = Democracy_Score), color="blue") + 
+  geom_smooth(method=lm, se=TRUE, level=0.99) +
+  ggtitle(paste("Date: 2020-09-01 - cor(X,Y)  = ", 
+                cor(schooling_titied_covid$years_schooling, schooling_titied_covid$`(covid_cases/1,000 population)`)))
+```
+
+Although it may be convenient to assume that countries with an average of 15 and above years of schooling would have fewer cases of COVID due to their education, in reality, this is not the case. The above graph compares the relationship of education and the number of COVID cases in a region. The graph displays a weak positive correlation of the number of COVID cases, total years of schooling, and democracy score. The Democracy Score represents the level of democracy in a certain country. For example, a country that is recognized with a highly democratic government is represented with a large blue dot, while countries who have an authoritative government are represented by a smaller blue dot. There is an obvious correlation between the democracy score and total years of schooling. Countries with a higher Democracy score mostly have an average of 15 and above years of schooling, while countries with a lower democracy score mainly have an average of less than 15 years of schooling. The graph’s positive correlation implies that countries who have a higher democracy score and more years of schooling, tend to have higher recorded cases of COVID, while countries with lower democracy scores and less than 15 years of schooling tend to have fewer recorded cases of COVID. There are many factors which may have contributed to these results, one of which is the freedom of citizens in a Democratic government. Authoritative governments may have been able to implement strict precautionary measures without causing much political friction. Democratic governments have faced political protests and a number of obstacles while implementing strict COVID precautions. 
+
+```{r, echo=FALSE,message=FALSE}
+schooling_titied_covid %>% filter(Country == "Afghanistan" | Country == "Canada") %>%
+  gt()
+```
+
+**Region Classification:**
+
+Region classification is a very simple dataset, to say the least. The original data set(again, without the head() function), included 258 rows which represented different countries, and 3 columns(Country, Region, Global South) which are all type characters. This data set just gave information about each country, like which region it's located in and if it is in the Global South or Global North.
+
+```{r, echo=FALSE,message=FALSE}
+regionclassification <- read_tsv("WorldRegions.csv")
+
+
+covid_cases_last_date <- covid_cases %>% filter(date == as.Date(end_date), !is.na(total_cases)) %>%
+  anti_join(outliers, by = "location")
+
+covid_cases_regionclassification <- inner_join(covid_cases_last_date, regionclassification, by = c("location" = "Country"))
+
+covid_cases_regionclassification %>%
+  group_by(Region, `Global South`) %>% 
+  summarise(
+    deaths = sum(total_deaths, na.rm = TRUE),
+    cases = sum(total_cases, na.rm = TRUE), 
+    avg_daily_cases = mean(new_cases, na.rm = TRUE), 
+    avg_new_deaths = mean(new_deaths, nna.rm = TRUE)
+  ) %>% 
+  ungroup() %>% head(8) %>% arrange(cases) %>%
+  ggplot(aes(x = Region, y = cases)) + 
+  geom_bar(aes(fill = `Global South`), stat='identity') 
+
+```
+
+The above graph compares the number of recorded COVID cases in the North and South regions of certain countries or continents. This graph in particular indicates that COVID cases are more prevalent in the South regions than the North. There are many factors that contribute to these results. Some factors may include that Southern states in the USA lack access to high-quality doctors and health care, previous underlying health conditions, and higher poverty rates in the South. 
+
+# Conclusion
+Throughout our data analysis, many different themes and factors had been analyzed an addressed. We had used each dataset to how we felt they should be used and found that COVID-19 had indeed had a greater influence and impact on certain nations that were lacking in certain factors that we had looked at in particular. Countries with poor health and economic systems did see a large impact to the virus, but we found that certain decisions that governments made had an impact on the population regardless of how great a country was overall. With all of our analysis, we also found that certain statistics and trends could not be fully explained as we would like to have it done. This was due to certain datasets being rather outdated, and that every nook and cranny of each small factor could not to be taken into account for a rather small scale project. 
+
+
+# Appendix
+
+**Tables:**
+
+Some of the tidied and filtered tables can be found here:
+
+**Realtime datasets**
+
+```{r}
+covid_cases_filtered
+
+covid_tests_filtered
+
+covid_response
+
+covid_cases_response
+```
+
+**Standard Datasets:**
+
+```{r}
+gdppp
+
+healthexp
+
+covid_cases_healthexp_population
+
+population_vs_cases
+
+lifeexpect
+
+lifeexpect2
+
+deaths_vs_lifeexpect
+
+schooling_titied
+
+schooling_titied_covid
+
+regionclassification
+
+covid_cases_regionclassification 
+
+gdppp <- read_tsv("GDPPP.csv")
+
+
+#10 Million Population+
+
+covid_cases_gdppp <- inner_join(covid_cases_last_date, gdppp, by = c("location" = "Country")) 
+
+
+covid_cases_gdppp <- covid_cases_gdppp %>%
+  mutate(`GDP - PER CAPITA (PPP)` = as.numeric(gsub('\\$|,', '', covid_cases_gdppp$`GDP - PER CAPITA (PPP)`))) %>% anti_join(
+    outliers, by = "location"
+  )
+
+covid_cases_gdppp_population <- inner_join(covid_cases_gdppp, population %>% filter(!is.na(Population), Population > 10000000) %>% select(-Rank), by = c("location" = "Country")) 
+
+
+covid_cases_gdppp_population  %>%
+  ggplot(aes(x = total_cases, y = `GDP - PER CAPITA (PPP)`)) +
+  geom_point() +
+  geom_smooth(method=lm, se=TRUE, level=0.99) +
+  ggtitle(paste("Date: 2020-09-01 - cor(X,Y)  = ", 
+                cor(covid_cases_gdppp_population$total_cases, covid_cases_gdppp_population$`GDP - PER CAPITA (PPP)`)))
+```
+```{r}
+population <- read_tsv("POPULATION.csv")
+
+covid_cases_population_filtered <- anti_join(covid_cases_population,outliers, by = "location")
+
+#change to tibble 
+tib_covid_cases_population<- as_tibble(covid_cases_population_filtered)
+fit.final<- lm(total_cases ~ Population, data = tib_covid_cases_population)
+
+cor(tib_covid_cases_population$Population, tib_covid_cases_population$total_cases) 
+summary(fit.final)
+
+covid_cases_population_filtered %>%
+  ggplot(aes(x = total_cases, y = Population)) +
+  geom_point() +
+  geom_smooth(method=lm, se=TRUE, level=0.99) +
+  ggtitle(paste("Date: 2020-09-01 - cor(X,Y)  = ", cor(covid_cases_population_filtered$total_cases, covid_cases_population_filtered$Population)))
+
+```
+[Area of the regions](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/279rank.html)
+```{r}
+area <- read_tsv("AREA.csv")
+population <- read_tsv("POPULATION.csv")
+covid_cases_last_date <- covid_cases %>% filter(date == as.Date(end_date), !is.na(total_cases))
+
+t <- area %>% inner_join(covid_cases_last_date, by = c("Country" = "location")) %>%
+  select(-Rank) %>%
+  inner_join(population, by = "Country") %>% select(-Rank) %>%
+  filter(Population > 50000000) %>%
+  mutate(popDensity = Population/`(sq km)`, covid_cases_pop = total_cases/Population) %>%
+  anti_join(outliers, by = c("Country" = "location")) 
+
+t %>%
+  ggplot(aes(x = popDensity, y = covid_cases_pop))+
+  geom_point() +
+  geom_smooth(method=lm, se=TRUE, level=0.99) +
+  ggtitle(paste("Date: 2020-09-01 - cor(X,Y)  = ", cor(t$popDensity, t$covid_cases_pop)))
+area
+
+```
+
+**Extra Graphs:**
+
+
+```{r, echo=FALSE,message=FALSE}
+
+covid_cases_response %>% 
+    ggplot(aes(x = date, y = new_cases,  fill = `C4_Restrictions on gatherings`)) + 
+  geom_histogram(stat = "identity") + 
+  geom_line(data = covid_cases_response, aes(x = date, y = new_deaths))
+
+covid_cases_filtered_RUS_AUS_EGY<-covid_cases%>%
+  filter(location == c("Russia", "Australia", "Egypt"))
+
+covid_cases_filtered_ZEF_IND<-covid_cases%>%
+  filter(location == c("South Africa", "India"))
+
+covid_cases_filtered_CAN_USA_ITA%>%
+  ggplot()+ geom_line(mapping = aes(x = date, y = total_cases, color = location), position = "Jitter") +
+  labs(title = "Total Covid Cases in the United States, Canada, and Italy")
+  
+covid_cases_filtered_RUS_AUS_EGY%>%
+  ggplot()+ geom_line(mapping = aes(x = date, y = total_cases, color = location))+
+  labs(title = "Total Covid Cases in the Russia, Australia, and Egypt")
+
+covid_cases_filtered_ZEF_IND%>%
+  ggplot() + geom_line(mapping = aes(x = date, y = total_cases, color = location))+
+  labs(title = "Total Covid Cases in the South Africa, and India")
+
+population_vs_cases%>%
+  filter(location %in% c("United States", "Canada", "Italy"))%>%
+  select(date, location, total_cases, total_deaths,Population, Percentage_Cases_Population)%>%
+  ggplot() + geom_line(mapping = aes(x = date, y = `Percentage_Cases_Population`, color = location),size = 1.5,position = "jitter") +   ylim(0,3) + labs(title  = "Percentage of Total Cases vs The Population In Canada, US, and Italy")
+
+population_vs_cases%>%
+  filter(location %in% c("Russia", "Egypt", "Australia"))%>%
+  select(date, location, total_cases, total_deaths,Population, Percentage_Cases_Population)%>%
+  ggplot() + geom_line(mapping = aes(x = date, y = `Percentage_Cases_Population`, color = location),size = 1.5,position = "jitter") +   ylim(0,3) + labs(title  = "Percentage of Total Cases vs The Population In Russia, Egypt, and Australia")
+
+population_vs_cases%>%
+  filter(location %in% c("South Africa", "India"))%>%
+  mutate(Percentage_Cases_Population = (100*total_cases)/(Population))%>%
+  select(date, location, total_cases, total_deaths,Population, Percentage_Cases_Population)%>%
+  ggplot() + geom_line(mapping = aes(x = date, y = `Percentage_Cases_Population`, color = location),size = 1.5,position = "jitter") +   ylim(0,3) + labs(title  = "Percentage of Total Cases vs The Population In South Africa and India")
+```
+
+# Responsibilities:
+
+```{r, message = TRUE}
+tribble(
+  ~"Name", ~"Role", 
+  "Mariam Lo", "Data descriptions for : 
+  COVID cases, Labor force, COVID tests, Death rate, COVID response, Unemployment rate.
+  Worked on question 1 and question 2, stated which dates were chosen and why, helped with question 3.
+  Graphs for labor force.
+  Checked grammar and looked for any mistakes in final report.
+  Helped to tidy datasets: population,labor force, unemployment to make it easier to analyze
+", 
+  "Rajveer Coonjoobeeharry", "Tidied schooling, gdppp, healthexp.
+  Created graphs for real time datasets i.e covid cases, covid responses, covid testing.
+  Created graphs for democracyindex and schooling (used together), regionclassification, area,      population,deathrate, healthexp,gdpp.
+  Found outliers using boxplot.
+  Worked on all descriptive statistics, i.e min, max, avg, corr, regression graphs etc..
+  Helped in answering the four questions.  
+  Data descriptions for democracyindex and healthexp.
+  Used gt package to make nicer tables for analysis i.e current table,facial coverings vs covid cases and death and more
+", 
+"Hafsah Ashraf", "Organized report into sections.
+  Organized team zoom meeting and chat through discord.
+  Report Contribution: wrote Introduction,  justification for dates chosen, how factors were affected by   COVID, factors that have affected/have been affected by COVID.
+  Analysis: Relationship of COVID Cases and Tests, Gov. restrictions in CA, CA vs. Italy in COVID   Cases/Tests, Current Health Expenditure vs. COVID deaths, relationship of education, democracy score, and COVID cases, COVID cases in North and South Regions.
+Data description: Schooling Expectancy
+", 
+"Vivek Vangipuram", "Organized final RMD files into its sections combining all the required code.
+  Tidied the lifeexpectancy, laborforce, and GDPPP tables.
+  Created several graphs from COVID Tests, COVID response and COVID Cases realtime datasets.
+  Created more graphs and fished for data in the life expectancy and population graphs with comparison to the real time datasets. 
+  Created graphs comparing the two and wrote a full analysis for both standard datasets.
+Data descriptions for Life expectancy, GDP Per Capita, Population and Part of COVID Tests
+Did the conclusion", 
+"Valencia Isabelle Palar", "Data descriptions for :
+  C2_Workplace Closing,
+  C4_Restrictions on gathering,
+  Population distribution.
+  Checked grammar and looked for any mistakes in the final report.
+"
+)%>%
+  gt() %>%
+  tab_header(
+    title = "Covid Combatters Contributions",
+    subtitle = "placeholder for knit"
+  )
+```
+

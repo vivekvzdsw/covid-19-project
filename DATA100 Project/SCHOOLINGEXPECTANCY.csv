@@ -1,0 +1,886 @@
+key	value	number
+Country	Afghanistan	1
+total	10 years	1
+male	13 years	1
+female	8 years	1
+data year	2018	1
+Country	Albania	2
+total	15 years	2
+male	14 years	2
+female	16 years	2
+data year	2019	2
+Country	Algeria	3
+total	14 years	3
+male	14 years	3
+female	15 years	3
+data year	2011	3
+Country	Angola	4
+total	10 years	4
+male	12 years	4
+female	7 years	4
+data year	2011	4
+Country	Antigua and Barbuda	5
+total	15 years	5
+male	14 years	5
+female	16 years	5
+data year	2012	5
+Country	Argentina	6
+total	18 years	6
+male	16 years	6
+female	19 years	6
+data year	2017	6
+Country	Armenia	7
+total	13 years	7
+male	13 years	7
+female	14 years	7
+data year	2019	7
+Country	Aruba	8
+total	14 years	8
+male	13 years	8
+female	14 years	8
+data year	2012	8
+Country	Australia	9
+total	21 years	9
+male	20 years	9
+female	21 years	9
+data year	2018	9
+Country	Austria	10
+total	16 years	10
+male	16 years	10
+female	16 years	10
+data year	2018	10
+Country	Azerbaijan	11
+total	14 years	11
+male	13 years	11
+female	14 years	11
+data year	2019	11
+Country	Bahrain	12
+total	16 years	12
+male	16 years	12
+female	17 years	12
+data year	2019	12
+Country	Bangladesh	13
+total	12 years	13
+male	12 years	13
+female	12 years	13
+data year	2018	13
+Country	Barbados	14
+total	15 years	14
+male	14 years	14
+female	17 years	14
+data year	2011	14
+Country	Belarus	15
+total	15 years	15
+male	15 years	15
+female	16 years	15
+data year	2018	15
+Country	Belgium	16
+total	20 years	16
+male	19 years	16
+female	21 years	16
+data year	2018	16
+Country	Belize	17
+total	13 years	17
+male	13 years	17
+female	13 years	17
+data year	2019	17
+Country	Benin	18
+total	13 years	18
+male	14 years	18
+female	11 years	18
+data year	2016	18
+Country	Bermuda	19
+total	13 years	19
+male	12 years	19
+female	14 years	19
+data year	2015	19
+Country	Bhutan	20
+total	13 years	20
+male	13 years	20
+female	14 years	20
+data year	2018	20
+Country	Bosnia and Herzegovina	21
+total	14 years	21
+male	14 years	21
+female	15 years	21
+data year	2014	21
+Country	Botswana	22
+total	13 years	22
+male	13 years	22
+female	13 years	22
+data year	2013	22
+Country	Brazil	23
+total	14 years	23
+male	14 years	23
+female	14 years	23
+data year	2011	23
+Country	British Virgin Islands	24
+total	12 years	24
+male	12 years NA	24
+female	12 years NA	24
+data year	2018	24
+Country	Brunei	25
+total	14 years	25
+male	14 years	25
+female	15 years	25
+data year	2019	25
+Country	Bulgaria	26
+total	14 years	26
+male	14 years	26
+female	14 years	26
+data year	2018	26
+Country	Burkina Faso	27
+total	9 years	27
+male	9 years	27
+female	9 years	27
+data year	2019	27
+Country	Burma	28
+total	11 years	28
+male	11 years	28
+female	11 years	28
+data year	2018	28
+Country	Burundi	29
+total	11 years	29
+male	11 years	29
+female	11 years	29
+data year	2018	29
+Country	Cabo Verde	30
+total	13 years	30
+male	12 years	30
+female	13 years	30
+data year	2018	30
+Country	Cambodia	31
+total	11 years	31
+male	11 years	31
+female	10 years	31
+data year	2008	31
+Country	Cameroon	32
+total	12 years	32
+male	13 years	32
+female	11 years	32
+data year	2016	32
+Country	Canada	33
+total	16 years	33
+male	16 years	33
+female	17 years	33
+data year	2018	33
+Country	Central African Republic	34
+total	7 years	34
+male	8 years	34
+female	6 years	34
+data year	2012	34
+Country	Chad	35
+total	7 years	35
+male	9 years	35
+female	6 years	35
+data year	2015	35
+Country	Chile	36
+total	17 years	36
+male	16 years	36
+female	17 years	36
+data year	2018	36
+Country	China	37
+total	14 years	37
+male	14 years	37
+female	14 years	37
+data year	2015	37
+Country	Colombia	38
+total	14 years	38
+male	14 years	38
+female	15 years	38
+data year	2018	38
+Country	Comoros	39
+total	11 years	39
+male	11 years	39
+female	11 years	39
+data year	2014	39
+Country	Congo, Democratic Republic of the	40
+total	11 years	40
+male	10 years	40
+female	9 years	40
+data year	2013	40
+Country	Congo, Republic of the	41
+total	11 years	41
+male	11 years	41
+female	11 years	41
+data year	2012	41
+Country	Cook Islands	42
+total	1,516 years	42
+male	15 years	42
+female	14 years	42
+data year	2012	42
+Country	Costa Rica	43
+total	16 years	43
+male	17 years	43
+female	17 years	43
+data year	2019	43
+Country	Cote d'Ivoire	44
+total	11 years	44
+male	10 years	44
+female	9 years	44
+data year	2017	44
+Country	Croatia	45
+total	15 years	45
+male	15 years	45
+female	16 years	45
+data year	2018	45
+Country	Cuba	46
+total	14 years	46
+male	14 years	46
+female	15 years	46
+data year	2018	46
+Country	Curacao	47
+total	17 years	47
+male	18 years	47
+female	18 years	47
+data year	2013	47
+Country	Cyprus	48
+total	15 years	48
+male	15 years	48
+female	15 years	48
+data year	2018	48
+Country	Czechia	49
+total	16 years	49
+male	16 years	49
+female	17 years	49
+data year	2018	49
+Country	Denmark	50
+total	18 years	50
+male	19 years	50
+female	19 years	50
+data year	2018	50
+Country	Djibouti	51
+total	7 years	51
+male	7 years	51
+female	67 years	51
+data year	2011	51
+Country	Dominican Republic	52
+total	14 years	52
+male	14 years	52
+female	15 years	52
+data year	2017	52
+Country	Ecuador	53
+total	15 years	53
+male	15 years	53
+female	16 years	53
+data year	2015	53
+Country	Egypt	54
+total	13 years	54
+male	13 years	54
+female	13 years	54
+data year	2017	54
+Country	El Salvador	55
+total	12 years	55
+male	12 years	55
+female	12 years	55
+data year	2018	55
+Country	Eritrea	56
+total	59 years	56
+male	8 years	56
+female	7 years	56
+data year	2015	56
+Country	Estonia	57
+total	15 years	57
+male	16 years	57
+female	17 years	57
+data year	2018	57
+Country	Eswatini	58
+total	13 years	58
+male	13 years	58
+female	12 years	58
+data year	2013	58
+Country	Ethiopia	59
+total	9 years	59
+male	8 years	59
+female	8 years	59
+data year	2012	59
+Country	Finland	60
+total	19 years	60
+male	20 years	60
+female	20 years	60
+data year	2018	60
+Country	France	61
+total	16 years	61
+male	16 years	61
+female	16 years	61
+data year	2018	61
+Country	Gambia, The	62
+total	9 years	62
+male	9 years	62
+female	9 years	62
+data year	2010	62
+Country	Gaza Strip	63
+total	13 years	63
+male	13 years	63
+female	14 years	63
+data year	2013	63
+Country	Georgia	64
+total	15 years	64
+male	16 years	64
+female	16 years	64
+data year	2019	64
+Country	Germany	65
+total	17 years	65
+male	17 years	65
+female	17 years	65
+data year	2018	65
+Country	Ghana	66
+total	12 years	66
+male	12 years	66
+female	12 years	66
+data year	2019	66
+Country	Greece	67
+total	20 years	67
+male	20 years	67
+female	20 years	67
+data year	2018	67
+Country	Grenada	68
+total	19 years	68
+male	18 years	68
+female	19 years	68
+data year	2018	68
+Country	Guatemala	69
+total	11 years	69
+male	11 years	69
+female	11 years	69
+data year	2015	69
+Country	Guinea	70
+total	9 years	70
+male	10 years	70
+female	8 years	70
+data year	2014	70
+Country	Guyana	71
+total	11 years	71
+male	11 years	71
+female	12 years	71
+data year	2012	71
+Country	Honduras	72
+total	10 years	72
+male	10 years	72
+female	11 years	72
+data year	2017	72
+Country	Hong Kong	73
+total	17 years	73
+male	17 years	73
+female	18 years	73
+data year	2019	73
+Country	Hungary	74
+total	15 years	74
+male	15 years	74
+female	15 years	74
+data year	2018	74
+Country	Iceland	75
+total	19 years	75
+male	18 years	75
+female	20 years	75
+data year	2018	75
+Country	India	76
+total	12 years	76
+male	11 years	76
+female	12 years	76
+data year	2019	76
+Country	Indonesia	77
+total	14 years	77
+male	14 years	77
+female	14 years	77
+data year	2018	77
+Country	Iran	78
+total	15 years	78
+male	15 years	78
+female	15 years	78
+data year	2017	78
+Country	Ireland	79
+total	20 years	79
+male	19 years	79
+female	20 years	79
+data year	2018	79
+Country	Israel	80
+total	16 years	80
+male	16 years	80
+female	17 years	80
+data year	2018	80
+Country	Italy	81
+total	16 years	81
+male	16 years	81
+female	17 years	81
+data year	2018	81
+Country	Jamaica	82
+total	12 years	82
+male	11 years	82
+female	13 years	82
+data year	2015	82
+Country	Japan	83
+total	15 years	83
+male	15 years	83
+female	15 years	83
+data year	2016	83
+Country	Jordan	84
+total	11 years	84
+male	11 years	84
+female	11 years	84
+data year	2012	84
+Country	Kazakhstan	85
+total	16 years	85
+male	15 years	85
+female	16 years	85
+data year	2019	85
+Country	Kenya	86
+total	11 years	86
+male	11 years	86
+female	11 years	86
+data year	2009	86
+Country	Kiribati	87
+total	12 years	87
+male	11 years	87
+female	12 years	87
+data year	2008	87
+Country	Korea, North	88
+total	11 years	88
+male	11 years	88
+female	11 years	88
+data year	2015	88
+Country	Korea, South	89
+total	17 years	89
+male	17 years	89
+female	16 years	89
+data year	2018	89
+Country	Kuwait	90
+total	15 years	90
+male	14 years	90
+female	16 years	90
+data year	2015	90
+Country	Kyrgyzstan	91
+total	13 years	91
+male	13 years	91
+female	13 years	91
+data year	2019	91
+Country	Laos	92
+total	11 years	92
+male	11 years	92
+female	10 years	92
+data year	2019	92
+Country	Latvia	93
+total	16 years	93
+male	16 years	93
+female	17 years	93
+data year	2018	93
+Country	Lebanon	94
+total	11 years	94
+male	12 years	94
+female	11 years	94
+data year	2014	94
+Country	Lesotho	95
+total	12 years	95
+male	12 years	95
+female	13 years	95
+data year	2017	95
+Country	Liechtenstein	96
+total	15 years	96
+male	16 years	96
+female	14 years	96
+data year	2018	96
+Country	Lithuania	97
+total	17 years	97
+male	16 years	97
+female	17 years	97
+data year	2018	97
+Country	Luxembourg	98
+total	14 years	98
+male	14 years	98
+female	14 years	98
+data year	2018	98
+Country	Macau	99
+total	16 years	99
+male	16 years	99
+female	17 years	99
+data year	2019	99
+Country	Madagascar	100
+total	10 years	100
+male	10 years	100
+female	10 years	100
+data year	2018	100
+Country	Malawi	101
+total	11 years	101
+male	11 years	101
+female	11 years	101
+data year	2011	101
+Country	Malaysia	102
+total	14 years	102
+male	13 years	102
+female	14 years	102
+data year	2017	102
+Country	Mali	103
+total	8 years	103
+male	8 years	103
+female	7 years	103
+data year	2017	103
+Country	Malta	104
+total	17 years	104
+male	16 years	104
+female	17 years	104
+data year	2018	104
+Country	Marshall Islands	105
+total	10 years	105
+male	10 years	105
+female	10 years	105
+data year	2019	105
+Country	Mauritania	106
+total	9 years	106
+male	9 years	106
+female	10 years	106
+data year	2019	106
+Country	Mauritius	107
+total	15 years	107
+male	14 years	107
+female	16 years	107
+data year	2017	107
+Country	Mexico	108
+total	15 years	108
+male	15 years	108
+female	15 years	108
+data year	2018	108
+Country	Moldova	109
+total	11 years	109
+male	11 years	109
+female	12 years	109
+data year	2019	109
+Country	Mongolia	110
+total	15 years	110
+male	14 years	110
+female	16 years	110
+data year	2015	110
+Country	Montenegro	111
+total	15 years	111
+male	15 years	111
+female	15 years	111
+data year	2019	111
+Country	Montserrat	112
+total	14 years	112
+male	13 years	112
+female	15 years	112
+data year	2019	112
+Country	Morocco	113
+total	14 years	113
+male	14 years	113
+female	14 years	113
+data year	2019	113
+Country	Mozambique	114
+total	10 years	114
+male	11 years	114
+female	10 years	114
+data year	2017	114
+Country	Nauru	115
+total	9 years	115
+male	9 years	115
+female	10 years	115
+data year	2008	115
+Country	Nepal	116
+total	13 years	116
+male	13 years	116
+female	13 years	116
+data year	2019	116
+Country	Netherlands	117
+total	19 years	117
+male	18 years	117
+female	19 years	117
+data year	2018	117
+Country	New Zealand	118
+total	19 years	118
+male	18 years	118
+female	20 years	118
+data year	2018	118
+Country	Niger	119
+total	6 years	119
+male	7 years	119
+female	6 years	119
+data year	2017	119
+Country	Nigeria	120
+total	9 years	120
+male	9 years	120
+female	8 years	120
+data year	2011	120
+Country	North Macedonia	121
+total	14 years	121
+male	13 years	121
+female	14 years	121
+data year	2018	121
+Country	Norway	122
+total	18 years	122
+male	18 years	122
+female	19 years	122
+data year	2018	122
+Country	Oman	123
+total	14 years	123
+male	14 years	123
+female	15 years	123
+data year	2019	123
+Country	Pakistan	124
+total	8 years	124
+male	9 years	124
+female	8 years	124
+data year	2018	124
+Country	Palau	125
+total	17 years	125
+male	16 years	125
+female	17 years	125
+data year	2013	125
+Country	Panama	126
+total	13 years	126
+male	12 years	126
+female	14 years	126
+data year	2016	126
+Country	Paraguay	127
+total	12 years	127
+male	12 years	127
+female	13 years	127
+data year	2010	127
+Country	Peru	128
+total	15 years	128
+male	14 years	128
+female	15 years	128
+data year	2017	128
+Country	Philippines	129
+total	13 years	129
+male	13 years	129
+female	15 years	129
+data year	2017	129
+Country	Poland	130
+total	16 years	130
+male	15 years	130
+female	17 years	130
+data year	2018	130
+Country	Portugal	131
+total	17 years	131
+male	17 years	131
+female	17 years	131
+data year	2018	131
+Country	Puerto Rico	132
+total	16 years	132
+male	15 years	132
+female	18 years	132
+data year	2018	132
+Country	Qatar	133
+total	12 years	133
+male	12 years	133
+female	14 years	133
+data year	2019	133
+Country	Romania	134
+total	14 years	134
+male	14 years	134
+female	15 years	134
+data year	2018	134
+Country	Russia	135
+total	16 years	135
+male	16 years	135
+female	16 years	135
+data year	2018	135
+Country	Rwanda	136
+total	11 years	136
+male	11 years	136
+female	11 years	136
+data year	2019	136
+Country	Saint Kitts and Nevis	137
+total	18 years	137
+male	16 years	137
+female	16 years	137
+data year	2015	137
+Country	Saint Lucia	138
+total	13 years	138
+male	13 years	138
+female	13 years	138
+data year	2019	138
+Country	Saint Vincent and the Grenadines	139
+total	14 years	139
+male	14 years	139
+female	15 years	139
+data year	2015	139
+Country	San Marino	140
+total	16 years	140
+male	15 years	140
+female	16 years	140
+data year	2012	140
+Country	Sao Tome and Principe	141
+total	12 years	141
+male	12 years	141
+female	13 years	141
+data year	2015	141
+Country	Saudi Arabia	142
+total	17 years	142
+male	16 years	142
+female	16 years	142
+data year	2019	142
+Country	Senegal	143
+total	9 years	143
+male	8 years	143
+female	9 years	143
+data year	2019	143
+Country	Serbia	144
+total	15 years	144
+male	14 years	144
+female	15 years	144
+data year	2019	144
+Country	Seychelles	145
+total	14 years	145
+male	13 years	145
+female	16 years	145
+data year	2019	145
+Country	Singapore	146
+total	17 years	146
+male	16 years	146
+female	17 years	146
+data year	2018	146
+Country	Sint Maarten	147
+total	12 years	147
+male	12 years	147
+female	12 years	147
+data year	2014	147
+Country	Slovakia	148
+total	15 years	148
+male	14 years	148
+female	15 years	148
+data year	2018	148
+Country	Slovenia	149
+total	18 years	149
+male	17 years	149
+female	18 years	149
+data year	2018	149
+Country	South Africa	150
+total	14 years	150
+male	13 years	150
+female	14 years	150
+data year	2018	150
+Country	Spain	151
+total	18 years	151
+male	17 years	151
+female	18 years	151
+data year	2018	151
+Country	Sri Lanka	152
+total	14 years	152
+male	14 years	152
+female	15 years	152
+data year	2018	152
+Country	Sudan	153
+total	8 years	153
+male	8 years	153
+female	7 years	153
+data year	2015	153
+Country	Sweden	154
+total	20 years	154
+male	19 years	154
+female	21 years	154
+data year	2018	154
+Country	Switzerland	155
+total	16 years	155
+male	17 years	155
+female	16 years	155
+data year	2018	155
+Country	Syria	156
+total	9 years	156
+male	9 years	156
+female	9 years	156
+data year	2013	156
+Country	Tajikistan	157
+total	11 years	157
+male	12 years	157
+female	11 years	157
+data year	2013	157
+Country	Tanzania	158
+total	9 years	158
+male	9 years	158
+female	9 years	158
+data year	2019	158
+Country	Thailand	159
+total	15 years	159
+male	15 years	159
+female	16 years	159
+data year	2016	159
+Country	Timor-Leste	160
+total	13 years	160
+male	14 years	160
+female	13 years	160
+data year	2010	160
+Country	Togo	161
+total	13 years	161
+male	14 years	161
+female	12 years	161
+data year	2017	161
+Country	Tunisia	162
+total	15 years	162
+male	14 years	162
+female	16 years	162
+data year	2016	162
+Country	Turkey	163
+total	18 years	163
+male	19 years	163
+female	18 years	163
+data year	2018	163
+Country	Turkmenistan	164
+total	13 years	164
+male	13 years	164
+female	13 years	164
+data year	2019	164
+Country	Turks and Caicos Islands	165
+total	9 years	165
+male	NA	165
+female	NA	165
+data year	2015	165
+Country	Uganda	166
+total	10 years	166
+male	10 years	166
+female	10 years	166
+data year	2011	166
+Country	Ukraine	167
+total	15 years	167
+male	15 years	167
+female	15 years	167
+data year	2014	167
+Country	United Arab Emirates	168
+total	14 years	168
+male	14 years	168
+female	15 years	168
+data year	2017	168
+Country	United Kingdom	169
+total	17 years	169
+male	17 years	169
+female	18 years	169
+data year	2018	169
+Country	United States	170
+total	16 years	170
+male	16 years	170
+female	17 years	170
+data year	2018	170
+Country	Uruguay	171
+total	17 years	171
+male	NA	171
+female	NA	171
+data year	2017	171
+Country	Uzbekistan	172
+total	13 years	172
+male	13 years	172
+female	12 years	172
+data year	2019	172
+Country	Venezuela	173
+total	14 years	173
+male	NA	173
+female	NA	173
+data year	2009	173
+Country	West Bank	174
+total	13 years	174
+male	13 years	174
+female	14 years	174
+data year	2019	174
+Country	World	175
+total	12 years	175
+male	12 years	175
+female	12 years	175
+data year	2019	175
+Country	Yemen	176
+total	9 years	176
+male	11 years	176
+female	8 years	176
+data year	2011	176
+Country	Zimbabwe	177
+total	11 years	177
+male	12 years	177
+female	11 years	177
+data year	2013	177

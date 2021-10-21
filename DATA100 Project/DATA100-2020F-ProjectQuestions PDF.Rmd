@@ -1,0 +1,455 @@
+---
+title: "DATA100 Group Project -- 2020 Fall"
+author: "Shengda Hu"
+date: "02/11/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# repos="https://utstat.toronto.edu/cran/"
+library(tidyverse)
+library(stringr)
+library(lubridate)
+library(maps)
+```
+
+# R Markdown information
+
+Chapter 21 - 24 of the textbook
+
+Especially useful are the code block options on **Page 430**
+
+```{r}
+writeLines("Team Name: Covid Combatters")
+tribble(
+  ~"Last Name (Family)", ~"First Name (Given)", ~"Student ID",
+  "Ashraf ", "Hafsah", 201911240,
+  "Coonjobeeharry", "Rajveer", 170707330,
+  "Lo", "Mariam", 200368340,
+  "Palar", "Valencia Isabelle", 203302280,
+  "Vangipuram", "Vivek", 200797670
+)
+
+```
+
+# Project introduction
+
+Many things have happened and are happening in this year of 2020. The longest lasting, most widespread and probably defining event of the year so far -- aside from what happens tomorrow -- looks to be the COVID-19 pandemic. This project will ask you to use the methods and techniques we learned in DATA100 to get some understanding of this recent historical event.
+
+Since many events are still unfolding and whatever data are out there are constantly being updated, revised, debated and reinterpreted, the understanding that will come out from this project will inevitably be incomplete at the best, probably inconclusive and plainly unreasonable at worst. So the main goal of the project is not to come up with the most reasonable or objective interpretations of the data or events involved, as what look reasonable now might become way off the mark as more information comes to light. The main goal of this project is to understand as much as possible what the stories the data sets available might tell. Put it in the cliched language: "let the data talk", or in the more interesting phrase: "let the data ask questions".
+
+The theme of the story that we would like to understand is the following: 
+
+**What factors can be related to the level of observed infection / recovery / death by COVID-19 at a given time and given region**. 
+
+A most simple minded answer would be *everything*, because COVID-19 has definitely touched upon all facets of life. Through out this course, we are learning tools for "torturing the data until it confesses", and the project is an attempt at teasing out some more detailed information. Note that the term **relationship** may be interpreted at least in the following three categories:
+
+**1)** Causes higher / lower levels of COVID-19 infection / recovery / death
+
+**2)** Caused by higher / lower levels of COVID-19 infection / recovery / death
+
+**3)** Shows a correlation but causality unclear
+
+There are more sophisticated methods that can provide more information to distinguish these three interpretations. For this project, it would be enough to give an intuitive interpretation in terms of one of these categories if you identified any relationship among the various factors. It is also completely reasonable that, from the data sets we have, it may appear that some factors do not correlate much to the COVID-19 -- which is also knowledge gained.
+
+In the following, besides the **3** online data sets on COVID-19, we provide **22** data sets concerning a number of potential factors of interest, such as *educational*, *political*, *economical*, *technological*, *employment*, *health*, *demographic*, *self perception* factors. As you can see, a number of them are not up-to-date, which is due to the availability of timely data -- most of the interesting current data are not open data, or not easy to locate in more readily useful form to us. A number of COVID-19 related data sets are included, which by the collective work of many organizations, are updated real time. You are encouraged to track the most up-to-date version. We included the *WorldRegions.csv* data from World Regions Classification list on Wikipedia.
+
+Also included are the data *WorldHappinessReport2020-Score.csv* from the World Happiness Report `2020`, which concerns the years `2017-2019`. It is computed based on the answers of people to the following question: “Please imagine a ladder, with steps numbered from 0 at the bottom to 10 at the top. The top of the ladder represents the best possible life for you and the bottom of the ladder represents the worst possible life for you. On which step of the ladder would you say you personally feel you stand at this time?” ([Statistical Appendix for Chapter 2](https://happiness-report.s3.amazonaws.com/2020/WHR20_Ch2_Statistical_Appendix.pdf) of [World Health Report 2020](https://worldhappiness.report/ed/2020/)) Thus, the score can be seen as giving one interpretation of happiness.
+
+# Descriptions of the Online Datasets and Chosen Sets
+
+## Online Datasets
+**covid_cases:**Gives an in depth run down of all the countries and the dates starting from the beginning of the year until realtime. Each variable provides a good statistic of deaths or cases by different time spans. The variables vary from the total overall cases and deaths by each timestamp, the new cases and deaths at that timestamp. and then for each biweekly, weekly, and daily time marker it gives an update on the amount of cases and deaths for that timestamp. Overall it is very  useful in gauging the overall COVID-19 case increase and decrease on certain dates and how they span over various timeframes. The way we are using it is to compare the overall COVID cases and deaths by specific countries and regions. We are focusing on the dates leading up to september 1st as that is the timeframe we have chosen. We also decided to make graphs comparing total cases and total deaths in specific as we feel it is the best measure for this dataset and for the setup of our project to give us the conclusions we are looking for. 
+
+**covid_tests:**Explanation
+
+**covid_response:**Explanation
+
+## Chosen Datasets
+
+**lifeexpect:**Explanation
+
+**population:**Explanation
+
+**populationdistribution:**Explanation
+
+**unemployment:**Explanation
+
+**unemp_youth:**Explanation
+
+**laborforce:**Explanation
+
+**gdppp:**Explanation
+
+**healthexp:**Explanation
+
+
+## The Map
+
+The map below shows the `new cases` on Oct. 31, 2020 obtained from [Our world in data](https://covid.ourworldindata.org/data/ecdc/full_data.csv). 
+
+```{r}
+COVID_cases <- read_csv("COVID-2020-10-31.csv",
+                        col_types = cols(
+                          location = col_character(),
+                          new_cases = col_double(),
+                          total_cases = col_double()
+                        ))
+COVID_cases 
+```
+
+```{r}
+world <- map_data("world")
+
+iu <- COVID_cases %>% rename (region = location)
+
+iu$region[198] <- "USA" # to match world map data
+
+iu <- semi_join(iu, world, by = "region") #only keep countries according to world map data
+
+# code below is modified from 
+# https://stackoverflow.com/questions/29614972/ggplot-us-state-map-colors-are-fine-polygons-jagged-r
+gg <- ggplot()
+
+gg <- gg + geom_map(
+  data = world,
+  map = world,
+  aes(x = long, y = lat, map_id = region),
+  fill = "#ffffff",
+  color = "#ffffff",
+  size = 0.20
+  )
+  
+  gg <- gg + geom_map(
+  data = iu,
+  map = world,
+  aes(fill = new_cases, map_id = region),
+  color = "#ffffff",
+  size = 0.15
+  )
+  
+  gg <- gg + scale_fill_continuous(low = 'thistle2', high = 'darkblue',
+  guide = 'colorbar')
+  gg
+```
+
+# The Setup:
+
+- Choose two dates to do your analysis, which have to be in different periods in the year 2020 as outlined below:
+  + Before April 01
+  + Between April 01 and September 01
+  + After September 01
+
+- From the **22** data sets provided below in the `.csv` files, select a subset (of at least `8`), covering at least `3` of the factors mentioned above. Describe how the data sets selected measure the factors chosen. I expect different groups would choose different subsets to work with. 
+
+- You need to include all **3** real-time online data sets, i.e. `COVID-19 cases`, `COVID-19 government responses` and `COVID-19 testing`.
+Besides the `8` data sets mentioned above, the real-time online data sets on `COVID-19 government responses` and `COVID-19 testing` must be included in your discussion.
+
+# How the data sets selected measure the factors chosen: (Group Answer)                       
+
+The data sets we selected are death, life expectancy, population, population distribution, unemployment rate, unemployed youth, labor force, GDP per capita, and expenditure. The unemployment rate, unemployed youth, expenditure, and GDP per capita all  provide information about the employment factor during the time of COVID, which then also affects the economical factor. The death rate, life expectancy, and population count all provide information on the health and demographic factor of each country. The number of unemployed youth may also provide information to make conclusions about the education of a certain country and provide some insights about economic conditions. 
+
+
+# The Questions:
+
+**Q: Provide a brief justification of the choice your group makes about the dates. `Random choice` is an acceptable justification.**
+
+A: Based on the dates given, our group chose the dates from before April 1st and from April 1st to September 1st. We picked these dates because they seem to be the peak periods of the first wave of COVID-19. These dates cover a time period where the cases were increasing at a high exponential rate.  We thought that the data from before April 1st to September 1st would be the most helpful when analyzing and answering questions for this project. For the most part, the period of time before April 1st was the time when COVID was most active. While from April 1st to September 1st, COVID was relatively milder and includes the “core” part of the first wave. 
+
+**Q: Form your own opinion concerning which factors are most likely to affect / be affected by the COVID-19 infection / recovery / death of a region, on the dates you selected. Note that most of the data sets are for years prior to `2020`.**
+
+A:After discussing as a group, we concluded that in the time period we chose, the overall health and economy of every country was negatively affected the most. People were not as aware of the dangers of COVID and the importance of making efforts to prevent its spread at the time. During the peak of the COVID pandemic, the overall health of most countries depleted not only due to the drastic increase of COVID cases, but also because many people who needed treatment for diseases such as cancer, diabetes, etc., had not been receiving the medical attention they need to remain healthy. Health services in most countries had also been disrupted as many health workers at the time were reassigned to deal with severe COVID cases. The cancellation of planned treatment also terminated health services at the time. 
+
+**Q: Based on the interpretation of your group, analyze how the factors affect / are affected by the COVID-19 infection / recovery / death of a region, on the dates you selected, as represented by the real-time online data sets on `COVID-19 cases`.**
+
+A: 
+
+**Q: For the two chosen dates, for different regions, do you see the relationship you describe using the data sets change? What could be the potential reasons for such changes?**
+
+# The Data sets
+
+There are a total of **25** data sets, **3** of which are online real-time data sets that are regularly updated, while the remaining **22** can be obtained as `csv` files on MyLS. You may need to make the data tidy for some of them. Please note that the data sets are from different sources, you may need to first make sure, for example, the country / region names provided indeed do correspond.
+
+The sources of the data are contained in the hyperlink. They are the following:
+
+- CIA World FactBook: from which we obtained a majority of the data sets as `.csv` files
+- World Bank Data: from which we obtained the data sets on Access to Electricity, Internet Usage, and Labor Force data
+- Our World in Data: from which we obtain the online data sets on COVID-19 cases and testing
+- [Economist Intelligence Unit](http://www.eiu.com/home.aspx): which developed the [democracy index](https://www.eiu.com/topic/democracy-index). The version we use is from the [Wikipedia page](https://en.wikipedia.org/wiki/Democracy_Index).
+- University of Oxford: from which we obtain the online data set on Government Response
+- United Nations: from which we obtained the data set on Population Distribution by Age and Gender
+- Wikipedia: from which we obtained the World Regions Classification data set, aside from the democracy index above
+
+### Real-time COVID-19 data sets:
+
+These data are regularly updated, and they contain all the historical data, which include the periods that we are interested in. Once you choose and fixed the dates to work with, the updates should not affect your report. 
+
+[COVID-19 cases (Our world in data)](https://covid.ourworldindata.org/data/ecdc/full_data.csv)
+```{r}
+covid_cases <- read_csv("https://covid.ourworldindata.org/data/ecdc/full_data.csv",
+                        col_types = cols(
+                          .default = col_double(),
+                          date = col_date(format =""),
+                          location = col_character()
+                        ))%>%
+  filter(between(date,as.Date("2020-01-01"),as.Date("2020-09-01"))) 
+
+covid_cases
+
+covid_cases_filtered<-covid_cases%>%
+  filter(location == c("Canada", "United States", "Italy"))
+
+covid_cases_filtered%>%
+  ggplot()+ geom_line(mapping = aes(x = date, y = total_cases, color = location))
+  
+covid_cases_filtered%>%
+  ggplot()+ geom_line(mapping = aes(x = date, y = total_deaths, color = location))
+
+covid_cases_filtered%>%
+  ggplot() + geom_point(mapping = aes(x = total_cases, y = total_deaths, color = location))
+
+covid_cases_filtered
+```
+
+[COVID-19 testing (Our world in data)](https://covid.ourworldindata.org/data/testing/covid-testing-all-observations.csv)
+
+    Hasell, J., Mathieu, E., Beltekian, D. et al. A cross-country database of COVID-19 testing. Sci Data 7, 345 (2020). https://doi.org/10.1038/s41597-020-00688-8
+
+```{r}
+covid_tests <- read_csv("https://covid.ourworldindata.org/data/testing/covid-testing-all-observations.csv")
+
+covid_tests_filtered <- covid_tests %>% 
+  filter(between(Date,as.Date("2020-01-01"),as.Date("2020-09-01"))) %>%
+  filter(Entity == c("United States - tests performed", "Canada - people tested", "Italy - tests performed"))%>%
+  select(-(`Source URL`:`Notes`))
+  
+covid_tests_filtered
+
+covid_tests_filtered%>% ggplot(aes(x = Date, y = `Cumulative total`)) +
+  geom_line(aes(color = Entity), se = TRUE)
+
+
+```
+
+[COVID-19 government responses](https://www.bsg.ox.ac.uk/research/research-projects/coronavirus-government-response-tracker#data)
+
+    University of Oxford, Blavatnik School of Government, "Coronavirus government response tracker"
+
+You need to use the [codebook](https://github.com/OxCGRT/covid-policy-tracker/blob/master/documentation/codebook.md) to understand the meanings of the values
+```{r}
+covid_response <- read_csv("https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv",
+                           col_types = cols(
+                             .default = col_character(),
+                             Date = col_date(format = "%Y%m%d"),
+                             `E3_Fiscal measures` = col_double(),
+                             `E4_International support` = col_double(),
+                             `H4_Emergency investment in healthcare` = col_double(),
+                             `H5_Investment in vaccines` = col_double(),
+                             `C1_School closing` = col_double(),
+                             `C2_Workplace closing` = col_double(),
+                             `C4_Restrictions on gatherings` = col_double(),
+                             `C1_Flag` = col_logical(),
+                             `C2_Flag` = col_logical(),
+                             `C3_Flag` = col_logical(),
+                             `C4_Flag` = col_logical(),
+                             `C5_Flag` = col_logical(),
+                             `C6_Flag` = col_logical(),
+                             `C7_Flag` = col_logical(),
+                             `E1_Flag` = col_logical(),
+                             `H1_Flag` = col_logical()
+                           )) %>% filter(between(Date,as.Date("2020-01-01"),as.Date("2020-09-01"))) 
+
+covid_response_gatherings_filtered <- covid_response %>% 
+  filter(CountryCode == c("CAN", "USA", "ITA"), `C1_School closing` >= 0, `C4_Restrictions on gatherings` >= 0)%>%
+  select(`CountryName`:`Date`,`C4_Restrictions on gatherings`, -(`RegionName`:`RegionCode`))
+
+
+
+covid_response_gatherings_filtered %>%
+  ggplot(mapping = aes(x = Date, y = `C4_Restrictions on gatherings`, color = CountryName)) + geom_point()+facet_wrap(~CountryName)
+
+
+covid_response_workplace_restrictions <- covid_response %>%
+  filter(CountryCode == c("CAN", "USA", "ITA"), `C2_Workplace closing`>=0)%>%
+  select(`CountryName`:`Date`,`C2_Workplace closing`, -(`RegionName`:`RegionCode`))
+covid_response_workplace_restrictions%>%
+  ggplot(mapping = aes(x = Date, y = `C2_Workplace closing`, color = CountryName))+geom_point()+facet_wrap(~CountryName)
+  
+
+```
+
+#### Datasets contained in `.csv` files
+
+[democracy index](https://www.eiu.com/topic/democracy-index) developed by the [Economist Intelligence Unit](http://www.eiu.com/home.aspx), which is contained in the table from the [Wikipedia page](https://en.wikipedia.org/wiki/Democracy_Index).
+```{r}
+democracyindex <- read_tsv("DEMOCRACYINDEX.csv")
+democracyindex %>% head()
+```
+
+[World Regions Classification](https://meta.wikimedia.org/wiki/List_of_countries_by_regional_classification)
+```{r}
+regionclassification <- read_tsv("WorldRegions.csv")
+regionclassification %>% head()
+```
+
+[World happiness report 2020, happiness score](https://worldhappiness.report/ed/2020/)
+```{r}
+happinessscore <- read_tsv("WorldHappinessReport2020-Score.csv")
+happinessscore 
+```
+
+[Area of the regions](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/279rank.html)
+```{r}
+area <- read_tsv("AREA.csv")
+area 
+```
+
+[Population in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/335rank.html)
+```{r}
+population <- read_tsv("POPULATION.csv")
+population 
+
+```
+
+[Population distribution](https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_PopulationBySingleAgeSex_1950-2019.csv)
+The numeric values for the Pop columns are population in thousands.
+```{r}
+populationdistribution <- read_tsv("POPULATIONDISTRIBUTION.csv")
+populationdistribution %>% head()
+```
+
+[Life expectance at birth in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/355.html)
+```{r}
+lifeexpect <- read_tsv("LIFEEXPECTANCYATBIRTH.csv")%>%
+  spread(key, value)%>%
+  filter(!is.na(female))%>%
+  separate(female, into=c("female", "delete1", "delete2"), sep = " ",convert=TRUE)%>%
+  separate(male, into=c("male", "delete"), sep = " ",convert=TRUE)%>%
+  separate(`total population`, into=c("total population", "delete3"), sep = " ",convert=TRUE) %>%
+  select(-delete1,-delete2,-delete3, -delete)
+  
+
+lifeexpect
+
+```
+
+[Birthrate in the regions](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/345rank.html)
+```{r}
+birthrate <- read_tsv("BIRTHRATE.csv")
+birthrate %>% head()
+```
+
+[Deathrate in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/346rank.html)
+```{r}
+deathrate <- read_tsv("DEATHRATE.csv")
+deathrate%>%
+  arrange((Rank))
+```
+
+[Labor force data in the region](https://data.worldbank.org/indicator/SL.TLF.TOTL.IN): the up-to-date data we use.
+[CIA](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/218rank.html) has a slightly outdated data set.
+```{r}
+laborforce <- read_tsv("LABORFORCE.csv",
+                       col_types = cols(
+                         .default = col_double(),
+                         `Country Name` = col_character(),
+                         `Country Code` = col_character()
+                       )) %>%
+  gather(`1960`:`2020`, key = "years", value = "population")%>%
+  filter(years >= 1990)
+laborforce 
+```
+
+[Unemployment in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/220rank.html)
+```{r}
+unemployment <- read_tsv("UNEMP.csv")
+unemployment %>%
+  filter(Country == c("United Kingdom", "Canada")) %>% 
+  ggplot(mapping=aes(x=`Country`,y=Rank))+
+
+  geom_boxplot(aes(color = Country, fill = Country), alpha = 0.5) +
+  labs(title = "Unemployment in the region")
+  
+
+```
+
+[Unemployment of youth in the region, ages 15-24](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/373rank.html)
+```{r}
+unemp_youth <- read_tsv("UNEMPYOUTH.csv")
+unemp_youth
+```
+
+[Degree of urbanization in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/349.html)
+```{r}
+urbanization <- read_tsv("URBANIZATION.csv")
+urbanization %>% head()
+```
+
+[School (primary to tertiary education) life expectancy in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/371.html)
+```{r}
+schooling <- read_tsv("SCHOOLINGEXPECTANCY.csv")
+schooling %>% head()
+```
+
+[Health expenditure in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/409.html)
+```{r}
+healthexp <- read_tsv("HEALTHEXP.csv")
+healthexp 
+```
+
+[Education expenditure in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/rankorder/2206rank.html)
+```{r}
+educationexp <- read_tsv("EDUEXP.csv")
+educationexp %>% head()
+```
+
+[GDP per capital in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/rankorder/2004rank.html)
+```{r}
+gdppp <- read_tsv("GDPPP.csv")
+gdppp %>%
+  arrange(desc("Date of Information"))
+```
+
+[Public debt in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/227rank.html)
+```{r}
+publicdebt <- read_tsv("PUBLICDEBT.csv")
+publicdebt %>% head()
+```
+
+[GDP composition by sector of origin in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/214.html)
+```{r}
+gdpcomp <- read_tsv("GDPCOMPOSITION.csv")
+gdpcomp %>% head()
+```
+
+[GINI index in the region](https://www.cia.gov/library/publications/resources/the-world-factbook/fields/223rank.html)
+```{r}
+gini <- read_tsv("GINI.csv")
+gini %>% head()
+```
+
+[Access to electricity (as percentage of population)](https://data.worldbank.org/indicator/EG.ELC.ACCS.ZS)
+```{r}
+accesstoelectricity <- read_tsv("ACCESSTOELECTRICITY.csv")
+accesstoelectricity %>% head()
+```
+
+[Individuals using the Internet (as percentage of population)](https://data.worldbank.org/indicator/IT.NET.USER.ZS)
+```{r}
+internetuser <- read_tsv("INTERNETUSER.csv")
+internetuser %>% head()
+```
+
+Use the above data for your project. You do not need to look for extra data sets for this project. You may look at other data sets for ideas and inspirations, but in the analysis and report, only use the data sets provided above.
+
+============================
+Sanity check
+============================
+
+```{r}
+democracyindex
+left_join(democracyindex, happinessscore, by = "Country")
+```
